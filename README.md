@@ -17,6 +17,7 @@ The best way of using this script is to run it as a cron job or a scheduled task
 
 1. Go to the [Google Calendar](https://calendar.google.com/) and create a new calendar.
 2. Add the emoji you want to use as a prefix for your events to your calendar's name. For example, if you want to use the 📅 emoji, name your calendar `📅 My Calendar`.
+3. The script will use the emoji as a prefix for your events for that calendar.
 
 ### Google Calendar Event Emoji Prefixer
 
