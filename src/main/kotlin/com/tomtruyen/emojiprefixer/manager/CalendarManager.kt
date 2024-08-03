@@ -82,7 +82,6 @@ class CalendarManager {
         val service = getCalendarService(credential)
 
         val now = DateTime(System.currentTimeMillis())
-        val future = DateTime(System.currentTimeMillis() + FETCH_EVENTS_DAYS * 24 * 60 * 60 * 1000)
 
         // Fetch all events from the calendar
         // Only fetch events that are between now and [FETCH_EVENTS_DAYS] days in the future
