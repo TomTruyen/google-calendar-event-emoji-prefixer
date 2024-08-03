@@ -19,6 +19,17 @@ The best way of using this script is to run it as a cron job or a scheduled task
 2. Add the emoji you want to use as a prefix for your events to your calendar's name. For example, if you want to use the 📅 emoji, name your calendar `📅 My Calendar`.
 3. The script will use the emoji as a prefix for your events for that calendar.
 
+### Mailjet API for Notifications
+
+This is an optional step. If you want to receive notifications when something goes wrong with authorization, you can use the Mailjet API.
+
+1. Go to the [Mailjet](https://app.mailjet.com/) and create a new account.
+2. Get your API key and secret.
+3. Copy the `local.properties.example` file to the `local.properties` file.
+3. Add the API key and secret to the `local.properties` file.
+4. Add your email address to the `local.properties` file.
+5. The script will send you an email if something goes wrong with authorization.
+
 ### Google Calendar Event Emoji Prefixer
 
 1. Build the project using the `./gradlew build` command.

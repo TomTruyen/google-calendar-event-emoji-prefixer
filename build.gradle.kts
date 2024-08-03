@@ -20,6 +20,8 @@ dependencies {
 
     implementation("net.fellbaum:jemoji:1.4.1")
 
+    implementation("com.mailjet:mailjet-client:5.2.5")
+
     testImplementation(kotlin("test"))
 }
 

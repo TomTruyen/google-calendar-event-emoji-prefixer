@@ -1,12 +1,16 @@
 package com.tomtruyen.emojiprefixer
 
+import com.google.api.client.googleapis.json.GoogleJsonResponseException
 import com.tomtruyen.emojiprefixer.extensions.emoji
 import com.tomtruyen.emojiprefixer.extensions.filterWriteable
 import com.tomtruyen.emojiprefixer.manager.CalendarManager
+import com.tomtruyen.emojiprefixer.utils.CalendarAuthorizationMailer
 import com.tomtruyen.emojiprefixer.utils.Logger
 
 fun main() {
     try {
+        Logger.info("Starting Emoji Prefixer...")
+
         // Create a new instance of the CalendarManager
         val manager = CalendarManager()
 
@@ -29,7 +33,19 @@ fun main() {
             // Add the emoji to the events
             manager.addEmojiToEvents(credential, calendar.id, emoji)
 
-            Thread.sleep(5000L)
+            // Sleep for 10 seconds to prevent rate limiting
+            // Most of the time this won't make much of a difference since people don't have that many calendars
+            Thread.sleep(10000L)
+        }
+
+        Logger.success("All calendars have been updated successfully")
+    } catch (e: GoogleJsonResponseException) {
+        if(e.details.code == 401) {
+            Logger.error("Authorization error occurred. Please reauthorize the application.")
+
+            CalendarAuthorizationMailer.send()
+
+            return
         }
     } catch (e: Exception) {
         Logger.error("An unexpected error occurred: ${e.message}")
