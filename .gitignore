@@ -298,4 +298,5 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/kotlin,java,gradle,intellij,intellij+all,intellij+iml
 
 tokens
+local.properties
 credentials.json
