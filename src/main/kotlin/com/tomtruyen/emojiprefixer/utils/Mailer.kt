@@ -6,6 +6,7 @@ import com.mailjet.client.transactional.SendContact
 import com.mailjet.client.transactional.SendEmailsRequest
 import com.mailjet.client.transactional.TrackOpens
 import com.mailjet.client.transactional.TransactionalEmail
+import com.tomtruyen.emojiprefixer.APPLICATION_NAME
 import java.util.Properties
 
 object CalendarAuthorizationMailer {
@@ -15,8 +16,6 @@ object CalendarAuthorizationMailer {
     private const val KEY_MAILJET_API_SECRET = "MAILJET_SECRET_KEY"
     private const val KEY_MAILJET_TO_EMAIL = "MAILJET_TO_EMAIL"
     private const val KEY_MAILJET_FROM_EMAIL = "MAILJET_FROM_EMAIL"
-
-    private const val PROJECT_NAME = "Emoji Prefixer"
 
     private val properties = Properties().apply {
         load(CalendarAuthorizationMailer::class.java.getResourceAsStream(PATH_ENVIRONMENT))
@@ -35,7 +34,7 @@ object CalendarAuthorizationMailer {
     }
 
     private val message = buildString {
-        append(PROJECT_NAME)
+        append(APPLICATION_NAME)
         append(" needs access to your Google Calendar to add emojis to your events.")
 
         appendLine()
@@ -62,8 +61,8 @@ object CalendarAuthorizationMailer {
         val email = TransactionalEmail
             .builder()
             .to(SendContact(to))
-            .from(SendContact(from, PROJECT_NAME))
-            .subject("Authorization required for $PROJECT_NAME")
+            .from(SendContact(from, APPLICATION_NAME))
+            .subject("Authorization required for $APPLICATION_NAME")
             .htmlPart(message)
             .trackOpens(TrackOpens.DISABLED)
             .build()

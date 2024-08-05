@@ -7,7 +7,7 @@ import com.tomtruyen.emojiprefixer.manager.CalendarManager
 import com.tomtruyen.emojiprefixer.utils.CalendarAuthorizationMailer
 import com.tomtruyen.emojiprefixer.utils.Logger
 
-private const val APPLICATION_NAME = "Emoji Prefixer"
+const val APPLICATION_NAME = "Emoji Prefixer"
 private const val CALENDAR_LOOP_DELAY = 10_000L
 
 fun main() {
