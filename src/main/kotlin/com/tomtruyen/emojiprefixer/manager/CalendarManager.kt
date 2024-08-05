@@ -16,6 +16,8 @@ import com.google.api.services.calendar.Calendar
 import com.google.api.services.calendar.CalendarScopes
 import com.google.api.services.calendar.model.CalendarListEntry
 import com.google.api.services.calendar.model.Event
+import com.tomtruyen.emojiprefixer.extensions.hasCalendarEmojiPrefix
+import com.tomtruyen.emojiprefixer.extensions.hasEmojiPrefix
 import java.io.File
 import java.io.InputStreamReader
 import com.tomtruyen.emojiprefixer.utils.Logger
@@ -41,8 +43,13 @@ class CalendarManager {
         // Create a list of events that need to be updated
         val events = fetchEventsByCalendarId(credential, calendarId)
             .filter {
-                // Ignore events that have an empty or null summary or already have an emoji prefix
-                !it.summary.isNullOrBlank() && !it.summary.trim().startsWith(emoji)
+                // Ignore events that have an empty or null summary
+                !it.summary.isNullOrBlank()
+                        // Ignore events that already have the emoji prefix
+                        && !it.hasCalendarEmojiPrefix(emoji)
+                        // Ignore events that already starts with any emoji prefix since we don't want to add multiple emojis
+                        // Sometimes a user might add an emoji manually to the event which is different from the calendar emoji
+                        && !it.hasEmojiPrefix()
             }.map {
                 // Add the emoji prefix to the summary
                 it.apply {
