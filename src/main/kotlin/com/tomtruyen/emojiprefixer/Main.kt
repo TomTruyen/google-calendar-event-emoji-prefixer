@@ -7,9 +7,12 @@ import com.tomtruyen.emojiprefixer.manager.CalendarManager
 import com.tomtruyen.emojiprefixer.utils.CalendarAuthorizationMailer
 import com.tomtruyen.emojiprefixer.utils.Logger
 
+private const val APPLICATION_NAME = "Emoji Prefixer"
+private const val CALENDAR_LOOP_DELAY = 10_000L
+
 fun main() {
     try {
-        Logger.info("Starting Emoji Prefixer...")
+        Logger.info("Starting $APPLICATION_NAME...")
 
         // Create a new instance of the CalendarManager
         val manager = CalendarManager()
@@ -35,7 +38,7 @@ fun main() {
 
             // Sleep for 10 seconds to prevent rate limiting
             // Most of the time this won't make much of a difference since people don't have that many calendars
-            Thread.sleep(10000L)
+            Thread.sleep(CALENDAR_LOOP_DELAY)
         }
 
         Logger.success("All calendars have been updated successfully")
