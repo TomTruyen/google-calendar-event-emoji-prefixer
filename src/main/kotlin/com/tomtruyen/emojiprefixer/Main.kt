@@ -50,6 +50,8 @@ fun main() {
 
             return
         }
+
+        Logger.error("A Google API error occurred: ${e.details.message}")
     } catch (e: Exception) {
         Logger.error("An unexpected error occurred: ${e.message}")
     }
