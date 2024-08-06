@@ -1,5 +1,8 @@
 plugins {
     kotlin("jvm") version "1.9.23"
+
+    // Shadow Jar
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "com.tomtruyen"
@@ -27,4 +30,11 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.shadowJar {
+    archiveFileName.set("emojiprefixer.jar")
+    manifest {
+        attributes["Main-Class"] = "com.tomtruyen.emojiprefixer.MainKt"
+    }
 }
