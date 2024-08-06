@@ -32,11 +32,11 @@ This is an optional step. If you want to receive notifications when something go
 
 ### Google Calendar Event Emoji Prefixer
 
-1. Build the project using the `./gradlew build` command.
+1. Build the project using the `./gradlew shadowJar` command.
    
    *If you are missing the permissions to run the command, use the `chmod +x gradlew` command.*
 
-2. Run the project using the `./gradlew run` command.
+2. Run the project using the `java -jar build/libs/emojiprefixer.jar` command.
 
 ### Cron Job
 
@@ -44,7 +44,7 @@ This is an optional step. If you want to receive notifications when something go
 2. Add the following line to the cron job file:
 
     ```bash
-    0 0 * * * /path/to/java -jar /path/to/google-calendar-event-emoji-prefixer-1.0.0.jar
+    0 0 * * * /path/to/java -jar /path/to/emojiprefixer.jar
     ```
 
 3. Save the file.
