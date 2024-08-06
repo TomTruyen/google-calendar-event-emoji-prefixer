@@ -105,6 +105,8 @@ class CalendarManager {
     //  or by being able to opening the link and authorizing on a different machine that has GUI support
     fun fetchOAuthCredential(): Credential {
         // Load the credentials file
+        Logger.info("Loading credentials in directory: ${File("").absolutePath}")
+
         val inputStream = CalendarManager::class.java.getResourceAsStream(PATH_CREDENTIALS_FILE) ?: throw Exception("Resource not found: $PATH_CREDENTIALS_FILE")
 
         // Load the client secrets
