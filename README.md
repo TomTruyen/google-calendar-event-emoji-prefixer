@@ -33,6 +33,9 @@ This is an optional step. If you want to receive notifications when something go
 ### Google Calendar Event Emoji Prefixer
 
 1. Build the project using the `./gradlew build` command.
+   
+   *If you are missing the permissions to run the command, use the `chmod +x gradlew` command.*
+
 2. Run the project using the `./gradlew run` command.
 
 ### Cron Job
