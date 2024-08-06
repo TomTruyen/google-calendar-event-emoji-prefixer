@@ -130,7 +130,11 @@ class CalendarManager {
         if(hasRefreshedToken) {
             Logger.info("Successfully refreshed OAuth credential")
 
+            Logger.info("Saving refreshed OAuth credential...")
+
             dataStoreFactory.getDataStore<StoredCredential>(DEFAULT_DATA_STORE_ID).set("user", StoredCredential(credential))
+
+            Logger.info("Successfully saved refreshed OAuth credential")
 
             return credential
         }
