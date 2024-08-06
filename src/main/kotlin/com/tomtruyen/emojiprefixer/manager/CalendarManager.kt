@@ -1,6 +1,8 @@
 package com.tomtruyen.emojiprefixer.manager
 
 import com.google.api.client.auth.oauth2.Credential
+import com.google.api.client.auth.oauth2.StoredCredential
+import com.google.api.client.auth.oauth2.StoredCredential.DEFAULT_DATA_STORE_ID
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow
@@ -112,17 +114,36 @@ class CalendarManager {
         // Load the client secrets
         val clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, InputStreamReader(inputStream))
 
+        val dataStoreFactory = FileDataStoreFactory(File(PATH_TOKENS_DIRECTORY))
+
         // Create a new flow
         val flow = GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES)
-            .setDataStoreFactory(FileDataStoreFactory(File(PATH_TOKENS_DIRECTORY)))
+            .setDataStoreFactory(dataStoreFactory)
+            .setApprovalPrompt("force")
             .setAccessType("offline")
             .build()
 
+        val credential = flow.loadCredential("user")
+
+        val hasRefreshedToken = refreshOAuthCredential(credential)
+
+        if(hasRefreshedToken) {
+            Logger.info("Successfully refreshed OAuth credential")
+
+            dataStoreFactory.getDataStore<StoredCredential>(DEFAULT_DATA_STORE_ID).set("user", StoredCredential(credential))
+
+            return credential
+        }
+
         // Authorize the flow
         val receiver = LocalServerReceiver.Builder().setPort(8888).build()
-        val credential = AuthorizationCodeInstalledApp(flow, receiver).authorize("user")
+        return AuthorizationCodeInstalledApp(flow, receiver).authorize("user")
+    }
 
-        return credential
+    private fun refreshOAuthCredential(credential: Credential?): Boolean {
+        Logger.info("Refreshing OAuth credential...")
+
+        return credential?.refreshToken() ?: false
     }
 
     companion object {
