@@ -114,7 +114,9 @@ class CalendarManager {
         // Load the client secrets
         val clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, InputStreamReader(inputStream))
 
-        val dataStoreFactory = FileDataStoreFactory(File(PATH_TOKENS_DIRECTORY))
+        val dataStoreFactory = FileDataStoreFactory(File(TOKEN_PATH))
+
+        Logger.info("Storing tokens in directory: $TOKEN_PATH")
 
         // Create a new flow
         val flow = GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES)
@@ -153,8 +155,8 @@ class CalendarManager {
     companion object {
         private const val APPLICATION_NAME = "Emoji Prefixer"
 
-        private const val PATH_TOKENS_DIRECTORY = "tokens"
         private const val PATH_CREDENTIALS_FILE = "/credentials.json"
+        private val TOKEN_PATH = System.getProperty("user.dir") + "/tokens"
 
         private val JSON_FACTORY = GsonFactory.getDefaultInstance()
 

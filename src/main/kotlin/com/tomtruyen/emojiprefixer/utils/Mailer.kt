@@ -7,19 +7,14 @@ import com.mailjet.client.transactional.SendEmailsRequest
 import com.mailjet.client.transactional.TrackOpens
 import com.mailjet.client.transactional.TransactionalEmail
 import com.tomtruyen.emojiprefixer.APPLICATION_NAME
-import java.util.Properties
 
 object CalendarAuthorizationMailer {
-    private const val PATH_ENVIRONMENT = "/local.properties"
-
     private const val KEY_MAILJET_API_KEY = "MAILJET_API_KEY"
     private const val KEY_MAILJET_API_SECRET = "MAILJET_SECRET_KEY"
     private const val KEY_MAILJET_TO_EMAIL = "MAILJET_TO_EMAIL"
     private const val KEY_MAILJET_FROM_EMAIL = "MAILJET_FROM_EMAIL"
 
-    private val properties = Properties().apply {
-        load(CalendarAuthorizationMailer::class.java.getResourceAsStream(PATH_ENVIRONMENT))
-    }
+    private val properties by lazy { PropertiesReader.loadProperties() }
 
     private val client by lazy {
         val apiKey = properties.getProperty(KEY_MAILJET_API_KEY)
