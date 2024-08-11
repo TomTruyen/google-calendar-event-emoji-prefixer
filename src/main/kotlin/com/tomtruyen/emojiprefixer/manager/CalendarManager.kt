@@ -24,6 +24,8 @@ import java.io.File
 import java.io.InputStreamReader
 import com.tomtruyen.emojiprefixer.utils.Logger
 import com.tomtruyen.emojiprefixer.utils.PropertiesReader
+import java.nio.file.Files
+import kotlin.io.path.Path
 
 class CalendarManager {
     private val properties by lazy { PropertiesReader.loadProperties() }
@@ -113,7 +115,7 @@ class CalendarManager {
         // Load the credentials file
         Logger.info("Loading credentials in directory: $credentialsPath")
 
-        val inputStream = CalendarManager::class.java.getResourceAsStream(credentialsPath) ?: throw Exception("Resource not found: $credentialsPath")
+        val inputStream = Files.newInputStream(Path(credentialsPath)) ?: throw Exception("Resource not found: $credentialsPath")
 
         // Load the client secrets
         val clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, InputStreamReader(inputStream))
