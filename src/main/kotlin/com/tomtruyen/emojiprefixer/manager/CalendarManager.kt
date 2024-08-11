@@ -23,8 +23,11 @@ import com.tomtruyen.emojiprefixer.extensions.hasEmojiPrefix
 import java.io.File
 import java.io.InputStreamReader
 import com.tomtruyen.emojiprefixer.utils.Logger
+import com.tomtruyen.emojiprefixer.utils.PropertiesReader
 
 class CalendarManager {
+    private val properties by lazy { PropertiesReader.loadProperties() }
+
     private val httpTransport by lazy { GoogleNetHttpTransport.newTrustedTransport() }
 
     // Create a new instance of the Calendar service
@@ -106,17 +109,20 @@ class CalendarManager {
     //  Implement a way to fetch the OAuth credential without the need of a GUI
     //  or by being able to opening the link and authorizing on a different machine that has GUI support
     fun fetchOAuthCredential(): Credential {
+        val credentialsPath = properties.getProperty("CREDENTIALS_PATH")
         // Load the credentials file
-        Logger.info("Loading credentials in directory: ${File("").absolutePath}")
+        Logger.info("Loading credentials in directory: $credentialsPath")
 
-        val inputStream = CalendarManager::class.java.getResourceAsStream(PATH_CREDENTIALS_FILE) ?: throw Exception("Resource not found: $PATH_CREDENTIALS_FILE")
+        val inputStream = CalendarManager::class.java.getResourceAsStream(credentialsPath) ?: throw Exception("Resource not found: $credentialsPath")
 
         // Load the client secrets
         val clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, InputStreamReader(inputStream))
 
-        val dataStoreFactory = FileDataStoreFactory(File(TOKEN_PATH))
+        val tokenPath = properties.getProperty("TOKEN_PATH")
 
-        Logger.info("Storing tokens in directory: $TOKEN_PATH")
+        val dataStoreFactory = FileDataStoreFactory(File(tokenPath))
+
+        Logger.info("Storing tokens in directory: $tokenPath")
 
         // Create a new flow
         val flow = GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets, SCOPES)
@@ -155,13 +161,8 @@ class CalendarManager {
     companion object {
         private const val APPLICATION_NAME = "Emoji Prefixer"
 
-        private const val PATH_CREDENTIALS_FILE = "/credentials.json"
-        private val TOKEN_PATH = System.getProperty("user.dir") + "/tokens"
-
         private val JSON_FACTORY = GsonFactory.getDefaultInstance()
 
         private val SCOPES = listOf(CalendarScopes.CALENDAR, CalendarScopes.CALENDAR_EVENTS)
-
-        private const val FETCH_EVENTS_DAYS = 30L
     }
 }
