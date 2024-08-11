@@ -118,7 +118,7 @@ class CalendarManager {
         // Load the client secrets
         val clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, InputStreamReader(inputStream))
 
-        val tokenPath = properties.getProperty("TOKEN_PATH")
+        val tokenPath = properties.getProperty("TOKENS_PATH")
 
         val dataStoreFactory = FileDataStoreFactory(File(tokenPath))
 
