@@ -51,6 +51,13 @@ This is an optional step. If you want to receive notifications when something go
 4. Restart the cron job using the `service cron restart` command.
 5. The script will now run every day at midnight.
 
+## Troubleshooting
+
+### My token is expired after 7 days
+
+Make sure to go into the [Google Cloud OAuth Consent Screen](https://console.cloud.google.com/apis/credentials/consent) and publish your app. 
+NOTE: It is not required to verify the app. It just needs to say "In production" under Publishing status
+
 ## License
 
 MIT License
